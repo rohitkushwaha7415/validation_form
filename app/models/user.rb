@@ -11,5 +11,17 @@ class User < ApplicationRecord
     validates :mobile, presence: true , 
                      numericality: true, 
                      length: {minimum: 10, maximum: 12} ,on: :create
-    validates :password, presence: true , length: {minimum: 8} , on: :create   
+    validates :password, presence: true , length: {minimum: 8} , on: :create  
+    
+    after_create :set_mobile
+
+    def set_mobile
+        self.mobile = "1234567898"
+        self.save
+    end
+
+
+    before_save do |user|
+    user.email.downcase! unless user.email.nil?
+    end
 end
